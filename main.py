@@ -8,9 +8,9 @@ def print_shipping_costs(country, order_total):
 
 
 if __name__ == '__main__':
-    print_shipping_costs(Country.UNITED_KINGDOM.value, 29.99)
-    print_shipping_costs(Country.UNITED_KINGDOM.value, 30.00)
-    print_shipping_costs(Country.FRANCE.value, 29.99)
-    print_shipping_costs(Country.FRANCE.value, 30.00)
-    print_shipping_costs(Country.ALBANIA.value, 29.99)
-    print_shipping_costs(Country.ALBANIA.value, 30)
+    print_shipping_costs(Country.UNITED_KINGDOM.value, 99.99)
+    print_shipping_costs(Country.UNITED_KINGDOM.value, 100.00)
+    print_shipping_costs(Country.FRANCE.value, 99.99)
+    print_shipping_costs(Country.FRANCE.value, 100.00)
+    print_shipping_costs(Country.ALBANIA.value, 99.99)
+    print_shipping_costs(Country.ALBANIA.value, 100.00)
