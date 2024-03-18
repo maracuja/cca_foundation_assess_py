@@ -3,6 +3,7 @@ import pytest
 
 from src.product import Product
 from src.warehouse import Entry, Warehouse, InsufficientStockError, ProductNotFoundError
+from test.builders import AddressBuilder, OrderBuilder
 
 
 @pytest.mark.parametrize("stock", [0, 1, 2, 3, 4, 10])
@@ -73,3 +74,29 @@ def test_product_not_found():
     warehouse = Warehouse(catalogue={1: entry})
     with pytest.raises(ProductNotFoundError):
         warehouse.get_entry(Product(id=2, description="Rangers Trophy", price=10.00))
+
+
+def test_order_confirmed():
+    products = [
+        Product(id=1, description="Celtic Jersey", price=50.00),
+        Product(id=2, description="Hibs Jersey", price=40.00),
+        Product(id=3, description="Partick Jersey", price=40.00),
+    ]
+    warehouse = Warehouse(catalogue={})
+    for product in products:
+        warehouse.add_entry(Entry(product=product, stock=20))
+
+    order = OrderBuilder(order_id="ORDER_1").with_products(products).build()
+    warehouse.confirm_order(order)
+
+    assert len(warehouse.sales_history.orders) == 1
+    assert (
+        len(
+            warehouse.sales_history.get_orders_by_address(
+                AddressBuilder(address_id="ADDRESS_1").build()
+            )
+        )
+        == 1
+    )
+    for product in products:
+        assert warehouse.check_stock(product) == 19

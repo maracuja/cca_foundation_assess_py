@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+
+from src.history import SalesHistory
 from src.product import Product
 
 
@@ -16,9 +18,12 @@ class Entry:
     stock: int
 
 
-@dataclass
 class Warehouse:
-    catalogue: dict[int, Entry]
+    def __init__(self, catalogue: dict[int, Entry], sales_history: SalesHistory = None):
+        self.catalogue: dict[int, Entry] = catalogue
+        self.sales_history: SalesHistory = (
+            sales_history if sales_history else SalesHistory()
+        )
 
     def add_entry(self, entry: Entry):
         if entry.product.id in self.catalogue:
@@ -47,3 +52,8 @@ class Warehouse:
 
     def receive_stock(self, product: Product, quantity: int):
         self.get_entry(product).stock += quantity
+
+    def confirm_order(self, order):
+        for item in order.items:
+            self.adjust_stock(item.product, item.quantity)
+        self.sales_history.add_order(order)
