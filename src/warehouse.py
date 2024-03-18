@@ -2,6 +2,10 @@ from dataclasses import dataclass
 from src.product import Product
 
 
+class InsufficientStockError(Exception):
+    pass
+
+
 @dataclass
 class Entry:
     product: Product
@@ -20,4 +24,8 @@ class Warehouse:
     def adjust_stock(self, product: Product, quantity: int):
         for entry in self.catalogue:
             if entry.product == product:
-                entry.stock += quantity
+                if quantity > entry.stock:
+                    raise InsufficientStockError(
+                        f"Trying to deduct {quantity}, but only {entry.stock} in stock."
+                    )
+                entry.stock -= quantity
