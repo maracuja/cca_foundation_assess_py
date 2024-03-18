@@ -20,11 +20,9 @@ class ShippingCalculator:
         self.threshold = threshold
 
     def get_shipping(self, order_total: float) -> float:
-        if self.threshold is None:
-            return self.shipping
-        if order_total < self.threshold:
-            return self.shipping
-        return self.discounted
+        if self.threshold and order_total >= self.threshold:
+            return self.discounted
+        return self.shipping
 
 
 SHIPPING_RULES = {
