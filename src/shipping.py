@@ -26,9 +26,9 @@ class ShippingCalculator:
 
 
 SHIPPING_RULES = {
-    "UK": ShippingCalculator(shipping=4.99, discounted=0, threshold=100.0),
+    "UK": ShippingCalculator(shipping=4.99, discounted=0, threshold=120.0),
     "EU": ShippingCalculator(shipping=8.99, discounted=4.99, threshold=100.0),
-    "OTHER": ShippingCalculator(shipping=9.99),
+    "OTHER": ShippingCalculator(shipping=9.99, discounted=5.99, threshold=200.0),
 }
 
 

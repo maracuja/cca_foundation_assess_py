@@ -64,11 +64,11 @@ class OrderTotalCase:
     [
         OrderTotalCase(
             products=[
-                Product(id=1, description="Celtic Jersey", price=51.00),
-                Product(id=2, description="Partick Jersey", price=51.00),
+                Product(id=1, description="Celtic Jersey", price=60.00),
+                Product(id=2, description="Partick Jersey", price=61.00),
             ],
             country=Country.UNITED_KINGDOM,
-            expected_total=102.00,
+            expected_total=121.00,
         ),
         OrderTotalCase(
             products=[
@@ -80,11 +80,11 @@ class OrderTotalCase:
         ),
         OrderTotalCase(
             products=[
-                Product(id=1, description="Celtic Jersey", price=51.00),
-                Product(id=2, description="Partick Jersey", price=51.00),
+                Product(id=1, description="Celtic Jersey", price=101.00),
+                Product(id=2, description="Partick Jersey", price=101.00),
             ],
             country=Country.ARMENIA,
-            expected_total=111.99,
+            expected_total=207.99,
         ),
         OrderTotalCase(
             products=[
