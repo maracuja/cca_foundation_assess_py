@@ -9,20 +9,26 @@ from test.builders import OrderBuilder
 
 
 def test_initialise_order():
-    order = (
-        OrderBuilder(order_id="ORDER_1").with_address(Country.UNITED_KINGDOM).build()
-    )
+    order = OrderBuilder(order_id="ORDER_1").build()
     assert len(order.items) == 0
 
 
 def test_add_item_to_order():
     product = Product(id=1, description="Celtic Jersey", price=49.99)
     item = Item(product=product, quantity=1)
-    order = (
-        OrderBuilder(order_id="ORDER_1").with_address(Country.UNITED_KINGDOM).build()
-    )
+    order = OrderBuilder(order_id="ORDER_1").build()
     order.add_item(item)
     assert len(order.items) == 1
+
+
+def test_order_has_product():
+    product_1 = Product(id=1, description="Celtic Jersey", price=49.99)
+    product_2 = Product(id=2, description="Rangers Jersey", price=0.01)
+    item = Item(product=product_1, quantity=1)
+    order = OrderBuilder(order_id="ORDER_1").build()
+    order.add_item(item)
+    assert order.has_product(product_1) is True
+    assert order.has_product(product_2) is False
 
 
 @pytest.mark.parametrize(

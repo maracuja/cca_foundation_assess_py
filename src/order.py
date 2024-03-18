@@ -23,6 +23,12 @@ class Order:
     def add_item(self, item: Item):
         self.items.append(item)
 
+    def has_product(self, product: Product):
+        for item in self.items:
+            if item.product.id == product.id:
+                return True
+        return False
+
     def get_total(self):
         total = sum(item.get_subtotal() for item in self.items)
         shipping = calculate_shipping(self.shipping_address.country.value, total)

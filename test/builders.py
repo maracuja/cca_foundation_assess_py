@@ -7,9 +7,9 @@ from src.product import Product
 
 
 class OrderBuilder:
-    def __init__(self, order_id: str):
+    def __init__(self, order_id: str, country: Country = None):
         self.order_id = order_id
-        self.country: Country = None
+        self.country: Country = country if country else Country.UNITED_KINGDOM
         self.products: list[Product] = []
 
     def with_address(self, country: Country) -> Self:
