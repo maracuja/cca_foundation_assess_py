@@ -11,21 +11,28 @@ def get_region(country: str) -> str:
     return response.json().get("region", "OTHER")
 
 
+class ShippingCalculator:
+    def __init__(
+        self, shipping: float, discounted: float = None, threshold: float = None
+    ):
+        self.shipping = shipping
+        self.discounted = discounted
+        self.threshold = threshold
+
+    def get_shipping(self, order_total: float) -> float:
+        if self.threshold is None:
+            return self.shipping
+        if order_total < self.threshold:
+            return self.shipping
+        return self.discounted
+
+
+SHIPPING_RULES = {
+    "UK": ShippingCalculator(shipping=4.99, discounted=0, threshold=100.0),
+    "EU": ShippingCalculator(shipping=8.99, discounted=4.99, threshold=100.0),
+    "OTHER": ShippingCalculator(shipping=9.99),
+}
+
+
 def calculate_shipping(country: str, order_total: float) -> float:
-    region = get_region(country)
-    shipping = 0.0
-
-    if region == "UK":
-        if order_total < 100.0:
-            shipping = 4.99
-
-    if region == "EU":
-        if order_total < 100:
-            shipping = 8.99
-        else:
-            shipping = 4.99
-
-    if region == "OTHER":
-        shipping = 9.99
-
-    return shipping
+    return SHIPPING_RULES.get(get_region(country)).get_shipping(order_total)
