@@ -22,6 +22,7 @@ class OrderBuilder:
 
     def build(self) -> Order:
         address = Address(
+            address_id="ADDRESS_1",
             house="45",
             street="My Street",
             city="London",
