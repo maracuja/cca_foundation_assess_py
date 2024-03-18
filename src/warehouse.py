@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from product import Product
+from src.product import Product
 
 
 @dataclass
@@ -12,3 +12,7 @@ class Entry:
 class Warehouse:
     catalogue: list[Entry]
 
+    def check_stock(self, product: Product) -> int:
+        for entry in self.catalogue:
+            if entry.product == product:
+                return entry.stock
