@@ -29,3 +29,8 @@ class Warehouse:
                         f"Trying to deduct {quantity}, but only {entry.stock} in stock."
                     )
                 entry.stock -= quantity
+
+    def receive_stock(self, product: Product, quantity: int):
+        for entry in self.catalogue:
+            if entry.product == product:
+                entry.stock += quantity

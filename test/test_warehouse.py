@@ -41,3 +41,19 @@ def test_not_enough_stock():
     warehouse = Warehouse(catalogue=[entry])
     with pytest.raises(InsufficientStockError):
         warehouse.adjust_stock(product, 11)
+
+
+@pytest.mark.parametrize(
+    "stock_check_case",
+    [
+        StockCheckCase(initial=0, adjustment=0, expected=0),
+        StockCheckCase(initial=1, adjustment=1, expected=2),
+        StockCheckCase(initial=3, adjustment=2, expected=5),
+    ],
+)
+def test_receive_stock(stock_check_case):
+    product = Product(id=1, description="Celtic Jersey", price=50.00)
+    entry = Entry(product=product, stock=stock_check_case.initial)
+    warehouse = Warehouse(catalogue=[entry])
+    warehouse.receive_stock(product, stock_check_case.adjustment)
+    assert warehouse.check_stock(product) == stock_check_case.expected
