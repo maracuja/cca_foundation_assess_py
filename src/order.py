@@ -29,6 +29,9 @@ class Order:
                 return True
         return False
 
+    def has_address(self, address: Address):
+        return self.shipping_address.address_id == address.address_id
+
     def get_total(self):
         total = sum(item.get_subtotal() for item in self.items)
         shipping = calculate_shipping(self.shipping_address.country.value, total)

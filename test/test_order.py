@@ -112,7 +112,7 @@ class OrderTotalCase:
 def test_order_total_with_shipping(order_total_case):
     order = (
         OrderBuilder(order_id="ORDER_1")
-        .with_address(order_total_case.country)
+        .with_country(order_total_case.country)
         .with_products(order_total_case.products)
         .build()
     )
