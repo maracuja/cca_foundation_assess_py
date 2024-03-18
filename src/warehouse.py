@@ -16,3 +16,8 @@ class Warehouse:
         for entry in self.catalogue:
             if entry.product == product:
                 return entry.stock
+
+    def adjust_stock(self, product: Product, quantity: int):
+        for entry in self.catalogue:
+            if entry.product == product:
+                entry.stock += quantity
