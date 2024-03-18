@@ -3,21 +3,24 @@ import pytest
 
 from src.order import Item
 from src.product import Product
-from src.address import Address
 from src.countries import Country
 
 from test.builders import OrderBuilder
 
 
 def test_initialise_order():
-    order = OrderBuilder().with_address(Country.UNITED_KINGDOM).build()
+    order = (
+        OrderBuilder(order_id="ORDER_1").with_address(Country.UNITED_KINGDOM).build()
+    )
     assert len(order.items) == 0
 
 
 def test_add_item_to_order():
     product = Product(id=1, description="Celtic Jersey", price=49.99)
     item = Item(product=product, quantity=1)
-    order = OrderBuilder().with_address(Country.UNITED_KINGDOM).build()
+    order = (
+        OrderBuilder(order_id="ORDER_1").with_address(Country.UNITED_KINGDOM).build()
+    )
     order.add_item(item)
     assert len(order.items) == 1
 
@@ -101,15 +104,8 @@ class OrderTotalCase:
     ],
 )
 def test_order_total_with_shipping(order_total_case):
-    address = Address(
-        house="45",
-        street="My Street",
-        city="London",
-        postcode="AB3 4EF",
-        country=order_total_case.country,
-    )
     order = (
-        OrderBuilder()
+        OrderBuilder(order_id="ORDER_1")
         .with_address(order_total_case.country)
         .with_products(order_total_case.products)
         .build()

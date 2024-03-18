@@ -16,6 +16,7 @@ class Item:
 
 @dataclass
 class Order:
+    order_id: str
     shipping_address: Address
     items: list[Item]
 

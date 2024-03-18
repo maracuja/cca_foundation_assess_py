@@ -4,7 +4,9 @@ from test.builders import OrderBuilder
 
 
 def test_add_order_to_sales_history():
-    order = OrderBuilder().with_address(Country.UNITED_KINGDOM).build()
+    order = (
+        OrderBuilder(order_id="ORDER_1").with_address(Country.UNITED_KINGDOM).build()
+    )
     sales_history = SalesHistory()
     sales_history.add_order(order)
 

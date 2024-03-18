@@ -7,7 +7,8 @@ from src.product import Product
 
 
 class OrderBuilder:
-    def __init__(self):
+    def __init__(self, order_id: str):
+        self.order_id = order_id
         self.country: Country = None
         self.products: list[Product] = []
 
@@ -29,6 +30,7 @@ class OrderBuilder:
         )
 
         return Order(
+            order_id=self.order_id,
             shipping_address=address,
             items=[Item(product=product, quantity=1) for product in self.products],
         )
