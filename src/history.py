@@ -1,5 +1,7 @@
-from dataclasses import dataclass
+from typing import Optional
+
 from src.order import Order
+from src.product import Product
 
 
 class SalesHistory:
@@ -8,3 +10,6 @@ class SalesHistory:
 
     def add_order(self, order: Order):
         self.orders.append(order)
+
+    def get_orders_by_product(self, product: Product) -> Optional[list[Order]]:
+        return [order for order in self.orders if order.has_product(product)]
