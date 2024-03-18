@@ -1,35 +1,23 @@
 from dataclasses import dataclass
 import pytest
 
-from src.order import Item, Order
+from src.order import Item
 from src.product import Product
 from src.address import Address
 from src.countries import Country
 
+from test.builders import OrderBuilder
+
 
 def test_initialise_order():
-    address = Address(
-        house="45",
-        street="My Street",
-        city="London",
-        postcode="AB3 4EF",
-        country=Country.UNITED_KINGDOM,
-    )
-    order = Order(shipping_address=address, items=[])
+    order = OrderBuilder().with_address(Country.UNITED_KINGDOM).build()
     assert len(order.items) == 0
 
 
 def test_add_item_to_order():
     product = Product(id=1, description="Celtic Jersey", price=49.99)
     item = Item(product=product, quantity=1)
-    address = Address(
-        house="45",
-        street="My Street",
-        city="London",
-        postcode="AB3 4EF",
-        country=Country.UNITED_KINGDOM,
-    )
-    order = Order(shipping_address=address, items=[])
+    order = OrderBuilder().with_address(Country.UNITED_KINGDOM).build()
     order.add_item(item)
     assert len(order.items) == 1
 
@@ -120,8 +108,10 @@ def test_order_total_with_shipping(order_total_case):
         postcode="AB3 4EF",
         country=order_total_case.country,
     )
-    order = Order(shipping_address=address, items=[])
-    for product in order_total_case.products:
-        order.add_item(Item(product=product, quantity=1))
-
+    order = (
+        OrderBuilder()
+        .with_address(order_total_case.country)
+        .with_products(order_total_case.products)
+        .build()
+    )
     assert order.get_total() == order_total_case.expected_total
